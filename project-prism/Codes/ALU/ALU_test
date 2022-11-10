@@ -1,0 +1,45 @@
+% iverilog -o alu ALU.v ALU_test.v ../ADD/ADD.v ../ADD/fa.v ../SUB/SUB.v ../XOR/xorfunc.v ../AND/andfunc.v
+
+module ALUtb;
+
+  reg [1:0]select;
+  reg signed [63:0]ip1;
+  reg signed [63:0]ip2;
+
+  wire signed [63:0]op; 
+  wire carry;
+
+  ALU uut(
+    .carry(carry),
+	.op(op),
+    .select(select),          
+    .ip1(ip1),                   
+    .ip2(ip2)
+    
+   
+  );
+
+  initial begin
+    $dumpfile("ALU.vcd");
+    $dumpvars(0,ALUtb);
+    select=2'b0;
+		ip1 = 64'b0;
+		ip2 = 64'b0;
+
+		#100;
+    
+    #20 select=2'b00;ip1=64'd12;ip2=64'b11;
+    #20 select=2'b00;ip1=64'd101;ip2=64'd56;
+	#20 select=2'b11;ip1=64'd89;ip2=64'd34;
+	#20 select=2'b01;ip1=64'd90;ip2=64'd88;
+
+      
+  end
+	
+  initial 
+    $monitor("select=%b ip1=%b ip2=%b op=%b carry=%b\n", select,ip1, ip2, op, carry);
+    
+endmodule  
+      
+      
+

@@ -1,0 +1,53 @@
+module ALU(carry,op,select,ip1,ip2);
+  
+input [1:0]select;
+input signed [63:0]ip1,ip2;
+output reg signed[63:0]op;
+output reg carry;
+  wire signed [63:0]op1,op2,op3,op4;
+  wire carry1,carry2;
+  ADD g1(carry1,op1,ip1,ip2);
+  SUB g2(carry2,op2,ip1,ip2);
+  andfunc g3(ip1,ip2,op3);
+  xorfunc g4(ip1,ip2,op4);
+  
+always @(*)
+  begin 
+  case(select)
+    
+    2'b00 : 
+      begin
+       op = op1;
+       carry = carry1;
+      end
+    
+    2'b01 : 
+      begin 
+        op = op2;
+        carry = carry2;
+      end
+    
+    2'b10 :
+      begin
+        op = op3;
+        carry = 0;
+      end
+    
+    2'b11 :
+      begin
+        op = op4;
+        carry = 0;
+      end
+    
+    default : 
+      begin
+      op = 64'b0;
+      carry = 0;
+      end
+    
+  endcase
+end
+
+endmodule
+      
+      
