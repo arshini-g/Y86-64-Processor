@@ -7,5 +7,3 @@ For seq:
 iverilog -o wrap wrap.v execute.v fetch.v memory.v pc_update.v decode.v ../ALU/ALU.v ADD.v SUB.v andfunc.v xorfunc.v fa.v
 vvp wrap
 
-For pipe:
-
